@@ -11,6 +11,11 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
+      - name: Mostrar arquivos no diretório
+        run: |
+          echo "Listando arquivos do repositório..."
+          dir
+
       - name: Configurar Python
         uses: actions/setup-python@v5
         with:
@@ -24,12 +29,16 @@ jobs:
 
       - name: Gerar EXE com PyInstaller
         run: |
-          pyinstaller --onefile --noconsole ^
-            --name "VisualSpreadsheets" ^
-            visual_spreadsheets_complete.py
+          echo "Empacotando visual_spreadsheets_complete.py"
+          pyinstaller --onefile --windowed visual_spreadsheets_complete.py
+
+      - name: Listar conteúdo da pasta dist
+        run: |
+          echo "Listando arquivos gerados em dist..."
+          dir dist
 
       - name: Publicar artefato (EXE)
         uses: actions/upload-artifact@v4
         with:
           name: VisualSpreadsheets-EXE
-          path: dist/VisualSpreadsheets.exe
+          path: dist/visual_spreadsheets_complete.exe
